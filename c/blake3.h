@@ -15,8 +15,9 @@ extern "C" {
 #define BLAKE3_CHUNK_LEN 1024
 #define BLAKE3_MAX_DEPTH 54
 
-// This struct is a private implementation detail. It has to be here because
-// it's part of blake3_hasher below.
+/* This struct is a private implementation detail. It has to be here because
+ * it's part of blake3_hasher below.
+ */
 typedef struct {
   uint32_t cv[8];
   uint64_t chunk_counter;
@@ -30,11 +31,12 @@ typedef struct {
   uint32_t key[8];
   blake3_chunk_state chunk;
   uint8_t cv_stack_len;
-  // The stack size is MAX_DEPTH + 1 because we do lazy merging. For example,
-  // with 7 chunks, we have 3 entries in the stack. Adding an 8th chunk
-  // requires a 4th entry, rather than merging everything down to 1, because we
-  // don't know whether more input is coming. This is different from how the
-  // reference implementation does things.
+  /* The stack size is MAX_DEPTH + 1 because we do lazy merging. For example,
+   * with 7 chunks, we have 3 entries in the stack. Adding an 8th chunk
+   * requires a 4th entry, rather than merging everything down to 1, because we
+   * don't know whether more input is coming. This is different from how the
+   * reference implementation does things.
+   */
   uint8_t cv_stack[(BLAKE3_MAX_DEPTH + 1) * BLAKE3_OUT_LEN];
 } blake3_hasher;
 
