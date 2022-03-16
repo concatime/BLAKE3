@@ -9,7 +9,7 @@ const char *blake3_version(void) { return BLAKE3_VERSION_STRING; }
 
 INLINE void chunk_state_init(blake3_chunk_state *self, const uint32_t key[8],
                              uint8_t flags) {
-  memcpy(self->cv, key, BLAKE3_KEY_LEN);
+  memcpy(self->cv, key, sizeof self->cv);
   self->chunk_counter = 0;
   memset(self->buf, 0, BLAKE3_BLOCK_LEN);
   self->buf_len = 0;
@@ -19,7 +19,7 @@ INLINE void chunk_state_init(blake3_chunk_state *self, const uint32_t key[8],
 
 INLINE void chunk_state_reset(blake3_chunk_state *self, const uint32_t key[8],
                               uint64_t chunk_counter) {
-  memcpy(self->cv, key, BLAKE3_KEY_LEN);
+  memcpy(self->cv, key, sizeof self->cv);
   self->chunk_counter = chunk_counter;
   self->blocks_compressed = 0;
   memset(self->buf, 0, BLAKE3_BLOCK_LEN);
@@ -64,7 +64,7 @@ INLINE output_t make_output(const uint32_t input_cv[8],
                             uint8_t block_len, uint64_t counter,
                             uint8_t flags) {
   output_t ret;
-  memcpy(ret.input_cv, input_cv, 32);
+  memcpy(ret.input_cv, input_cv, sizeof ret.input_cv);
   memcpy(ret.block, block, BLAKE3_BLOCK_LEN);
   ret.block_len = block_len;
   ret.counter = counter;
@@ -80,7 +80,7 @@ INLINE output_t make_output(const uint32_t input_cv[8],
 // bytes.
 INLINE void output_chaining_value(const output_t *self, uint8_t cv[32]) {
   uint32_t cv_words[8];
-  memcpy(cv_words, self->input_cv, 32);
+  memcpy(cv_words, self->input_cv, sizeof cv_words);
   blake3_compress_in_place(cv_words, self->block, self->block_len,
                            self->counter, self->flags);
   store_cv_words(cv, cv_words);
@@ -361,7 +361,7 @@ INLINE void compress_subtree_to_parent_node(
 
 INLINE void hasher_init_base(blake3_hasher *self, const uint32_t key[8],
                              uint8_t flags) {
-  memcpy(self->key, key, BLAKE3_KEY_LEN);
+  memcpy(self->key, key, sizeof self->key);
   chunk_state_init(&self->chunk, key, flags);
   self->cv_stack_len = 0;
 }
