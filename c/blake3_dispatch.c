@@ -62,15 +62,15 @@ static void cpuidex(uint32_t out[4], uint32_t id, uint32_t sid) {
 #endif
 
 enum cpu_feature {
-  SSE2 = 1 << 0,
-  SSSE3 = 1 << 1,
-  SSE41 = 1 << 2,
-  AVX = 1 << 3,
-  AVX2 = 1 << 4,
-  AVX512F = 1 << 5,
-  AVX512VL = 1 << 6,
+  SSE2 = 1UL << 0U,
+  SSSE3 = 1UL << 1U,
+  SSE41 = 1UL << 2U,
+  AVX = 1UL << 3U,
+  AVX2 = 1UL << 4U,
+  AVX512F = 1UL << 5U,
+  AVX512VL = 1UL << 6U,
   /* ... */
-  UNDEFINED = 1 << 30
+  UNDEFINED = 1UL << 30U
 };
 
 #if !defined(BLAKE3_TESTING)
