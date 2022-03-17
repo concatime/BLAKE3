@@ -1,13 +1,12 @@
 #ifndef BLAKE3_IMPL_H
 #define BLAKE3_IMPL_H
 
-#include <assert.h>
+#include "blake3.h"
+
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
-
-#include "blake3.h"
 
 // internal flags
 enum blake3_flags {
